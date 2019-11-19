@@ -1,0 +1,100 @@
+---
+title: "Simple examples on how to use linear"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{simple-examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## First (and foremost), load the package! 
+
+```{r setup}
+library(some.models)
+
+```
+## What is this package about? 
+
+This package provides you with one function to use in one very simple way - linear, which allows you to run multiple linear regression via OLS. What is OLS? Pretty much .. the easiest way to run a regression that we can think of. Essentially, it consists of estimating the parameters $\beta$ in order to minimize our loss in an $\ell-2$ sense. After a bit of calculus, we end up with a $\hat{\beta}_{p\times 1}$ estimate given by $(X^TX)^{-1}X^TY$ where $X$ is an $n \times p$, full-column rank design matrix of covariates and $Y$ is an $n \times 1$ vector of continuous outcomes (binary and categorical outcomes are better suited for the glm function in R, or for binary in particular the logistic function which I hope to build into here if I have time!). 
+
+## Does it work? 
+
+Yes. 
+
+```{r}
+data(mtcars)
+lm_fit_slr = lm(mpg ~ wt, mtcars)
+cars_fit_slr = linear(mtcars$wt, mtcars$mpg)
+
+summary(lm_fit_slr)
+cars_fit_slr$coeffs
+cars_fit_slr$se
+cars_fit_slr$t
+
+```
+
+```{r}
+
+lm_fit_mlr = lm(mpg ~ wt + hp, mtcars)
+cars_fit_mlr = linear(cbind(mtcars$wt,mtcars$hp), mtcars$mpg)
+
+summary(lm_fit_mlr)
+cars_fit_mlr$coeffs
+cars_fit_mlr$se
+cars_fit_mlr$t
+
+```
+
+So all hypothesis testing (or at least hypothesis testing at the level of 650) can be done equivalently to the lm() function in base R. We get equivalent coefficient estimates, equivalent standard errors and equivalent t-statistics (as shown above). 
+
+
+## How to use it?
+
+* You can use it to (obviously) estimate slope and intercept coefficients. This leads to a way to visualize the regression (at least in the univariate case). 
+
+```{r, fig.align = 'center'}
+library(ggplot2)
+
+data(mtcars)
+
+p = ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + theme_bw() + xlab("Weight") + ylab("MPG") 
+p1 = p + geom_abline(intercept = cars_fit_slr$coeffs[1], slope = cars_fit_slr$coeffs[2], color = 'red',size= 1.5)
+p1 
+
+```
+
+
+This also checks out with the lm() function as well, but let's verify just in case. 
+
+```{r, fig.align=  'center'}
+g = ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + theme_bw() + xlab("Weight") + ylab("MPG") 
+g1 = g + geom_smooth(method = lm, se = F)
+g1
+```
+
+Same line!
+
+* Something that I have made it explicitly easy to do is to test the basic assumptions of linearity. We covered linearity (above), so now we can cover constant variance by plotting the residuals versus the fitted values. 
+
+```{r, fig.align=  'center'}
+var_data = as.data.frame(cbind(cars_fit_slr$res, cars_fit_slr$fitted_values))
+colnames(var_data) = c('res','fits')
+
+f = ggplot(var_data , aes(x = fits, y  = res)) + geom_point() + theme_bw() + ylab('Residuals') + xlab('Fitted Values')
+f1 = f + geom_abline(intercept = 0.0, slope = 0, color = 'red', size = 1)
+f1
+```
+
+```{r}
+q = ggplot(var_data, aes(sample = res)) + stat_qq() + theme_bw() 
+q1 = q + ylab("Sample") + xlab('Theoretical') 
+q1
+
+```
