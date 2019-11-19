@@ -81,7 +81,7 @@ g1
 
 Same line!
 
-* Something that I have made it explicitly easy to do is to test the basic assumptions of linearity. We covered linearity (above), so now we can cover constant variance by plotting the residuals versus the fitted values. 
+* Something that is easy to do within the package is to test the basic assumptions of linearity. We covered linearity (above), so now we can cover constant variance by plotting the residuals versus the fitted values. 
 
 ```{r, fig.align=  'center'}
 var_data = as.data.frame(cbind(cars_fit_slr$res, cars_fit_slr$fitted_values))
@@ -96,5 +96,29 @@ f1
 q = ggplot(var_data, aes(sample = res)) + stat_qq() + theme_bw() 
 q1 = q + ylab("Sample") + xlab('Theoretical') 
 q1
+```
+
+* It is also easy to assess normality of the residuals using a QQ-plot. For further tests of collinear assumptions, it is best to consider your study design. If responses are measured over time, you can plot the residuals versus time and check to see if there is a trend (autocorrelation)
+* The function also provides you with the opportunity to get predicted values from a set of data. 
+```{r}
+dim(mtcars)
+
+mtcars_test = mtcars[1:16,]
+mtcars_train = mtcars[17:32,]
+
+fit_predict = linear(cbind(mtcars_train$wt, mtcars_train$hp), mtcars_train$mpg, 
+                     to_predict = cbind(mtcars_test$wt, mtcars_test$hp))
+
+X_linear = fit_predict$predicted # much less work! 
+
+fit_predict_lm = lm(mpg ~ wt + hp, data = mtcars_train)
+
+X = cbind(rep(1,16), mtcars_test$wt, mtcars_test$hp)
+
+X_lm = X %*% coefficients(fit_predict_lm)
+
+all.equal(X_lm, X_linear)
+
 
 ```
+

@@ -1,10 +1,14 @@
 Package: some.models
 Title: Fits a multiple linear regession line.
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Authors@R: person("Ben", "Brennan", email = "brennben@umich.edu", role = c("aut", "cre"))
 Description: Uses OLS to estimate regression coefficients and corresponding variability. 
 Depends: R (>= 3.4.2)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.0
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
