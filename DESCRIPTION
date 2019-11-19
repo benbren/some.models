@@ -1,5 +1,5 @@
 Package: some.models
-Title: Fits a multiple linear regession line.
+Title: Fits a Multiple (or Simple) Linear Regression Model.
 Version: 0.0.0.9000
 Authors@R: person("Ben", "Brennan", email = "brennben@umich.edu", role = c("aut", "cre"))
 Description: Uses OLS to estimate regression coefficients and corresponding variability. 
@@ -10,5 +10,7 @@ LazyData: true
 RoxygenNote: 7.0.0
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    bench,
+    ggplot2
 VignetteBuilder: knitr

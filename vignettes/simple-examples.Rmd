@@ -59,7 +59,7 @@ So all hypothesis testing (or at least hypothesis testing at the level of 650) c
 
 * You can use it to (obviously) estimate slope and intercept coefficients. This leads to a way to visualize the regression (at least in the univariate case). 
 
-```{r, fig.align = 'center'}
+```{r, fig.align = 'center', fig.width= 5, fig.height = 5}
 library(ggplot2)
 
 data(mtcars)
@@ -73,7 +73,7 @@ p1
 
 This also checks out with the lm() function as well, but let's verify just in case. 
 
-```{r, fig.align=  'center'}
+```{r, fig.align=  'center', fig.width= 5, fig.height = 5}
 g = ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point() + theme_bw() + xlab("Weight") + ylab("MPG") 
 g1 = g + geom_smooth(method = lm, se = F)
 g1
@@ -83,7 +83,7 @@ Same line!
 
 * Something that is easy to do within the package is to test the basic assumptions of linearity. We covered linearity (above), so now we can cover constant variance by plotting the residuals versus the fitted values. 
 
-```{r, fig.align=  'center'}
+```{r, fig.align=  'center', fig.width= 5, fig.height = 5}
 var_data = as.data.frame(cbind(cars_fit_slr$res, cars_fit_slr$fitted_values))
 colnames(var_data) = c('res','fits')
 
@@ -92,7 +92,7 @@ f1 = f + geom_abline(intercept = 0.0, slope = 0, color = 'red', size = 1)
 f1
 ```
 
-```{r}
+```{r, fig.align = 'center', fig.width= 5, fig.height = 5}
 q = ggplot(var_data, aes(sample = res)) + stat_qq() + theme_bw() 
 q1 = q + ylab("Sample") + xlab('Theoretical') 
 q1
@@ -122,3 +122,19 @@ all.equal(X_lm, X_linear)
 
 ```
 
+## How does it compare in speed to lm( )? 
+
+```{r, fig.align ='center', fig.width= 5, fig.height = 5}
+library(bench)
+
+X = matrix(sample(1:60,10000, replace = T),1000,10)
+y = rnorm(1000,mean = 0 , sd = sqrt(10))
+
+benchmark = bench::mark(as.vector(lm(y ~ X)$coefficients),as.vector(linear(X,y)$coeffs))
+
+print(benchmark)
+ggplot2::autoplot(benchmark)
+
+```
+
+It is faster than lm( ) on almost all runs. Furthemore, we can see it allocates less memory than lm( ), so it is better for performing very simple analysis. 
