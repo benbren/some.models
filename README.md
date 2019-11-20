@@ -4,7 +4,9 @@ some.models
 ===========
 
 <!-- badges: start -->
-<!-- badges: end -->
+[![Build Status](https://travis-ci.org/<github username>/<repo name>.svg?branch=master)](https://travis-ci.org/<github username>/<repo name>)
+[![Codecov test coverage](https://codecov.io/gh/benbren/some.models/branch/master/graph/badge.svg)](https://codecov.io/gh/benbren/some.models?branch=master) <!-- badges: end -->
+
 The goal of some.models is to allow the user to use and understand both linear regression and logistic regression in a user friendly way. In this package, we create functions with output that is limited to metrics that are important when beginning to learn about these regression techniques. Compared to lm and glm,. these functions are easy to understand and interpret, and allow for easy, real-world, prediction capabilites.
 
 Installation
