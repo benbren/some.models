@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 # some.models
 
-<!-- badges: start --> [![Build Status](https://travis-ci.org/<github username>/<repo name>.svg?branch=master)](https://travis-ci.org/<github username>/<repo name>)
+<!-- badges: start --> [![Build Status](https://travis-ci.org/benbren/some.models.svg?branch=master)](https://travis-ci.org/benbren/some.models)
 [![Codecov test coverage](https://codecov.io/gh/benbren/some.models/branch/master/graph/badge.svg)](https://codecov.io/gh/benbren/some.models?branch=master)
 <!-- badges: end -->
 
