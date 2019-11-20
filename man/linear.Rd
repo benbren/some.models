@@ -13,6 +13,8 @@ linear(X, y, need_intercept = T, to_predict = NULL)
 \item{y}{n by 1 vector of numeric continuous outcomes}
 
 \item{need_intercept}{do you need to add an intercept column to your design matrix? we assume TRUE}
+
+\item{to_predict}{an optional design for which you would like the outcomes predicted}
 }
 \value{
 coefficients, fitted values, residuals, predictions (if you asked for them),
