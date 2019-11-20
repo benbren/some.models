@@ -44,12 +44,12 @@ names(fit) # you can now choose what to do with all these things!
 
 ucla =  read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
 
-X = cbind(rep(1,dim(ucla)[1]), ucla$gpa)
+X = cbind(ucla$gpa)
 
 y = ucla$admit
 
 fit_logistic = logistic(X,y)
-#> Converged at iteration 4
+#> Converged at iteration 3
 
 names(fit_logistic) # more things to choose from
 #> [1] "coeffs"    "se"        "wald"      "p"         "or"        "fitted"   

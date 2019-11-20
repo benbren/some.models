@@ -16,5 +16,5 @@ Suggests:
     ggplot2,
     tidyr,
     ggbeeswarm,
-    testthat
+    testthat (>= 2.1.0)
 VignetteBuilder: knitr
