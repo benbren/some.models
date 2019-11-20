@@ -11,6 +11,7 @@
 #' @param tol the tolerance to hop out of the algorithm. 
 #' @param to_predict a n optional matrix to have predictions made for - should be same dimensions as X, including the intercept, 
 #' or there will be an error/wrong inference. 
+#' @param add_intercept TRUE if your design matrix needs an intercept 
 #' 
 #' @return coefficients, standard errors, wald statistics, p-values, odds ratios and the fitted probabilites. 
 #' also returns and optional predictions for a set of test data. 
@@ -22,8 +23,26 @@
 #' 
 #' @export
 
-logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL){
-
+logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL, add_intercept = T){
+  
+  if(is.null(dim(X))){
+    
+    m = length(X)
+    
+    
+  } else {
+    
+    m = dim(X)[1]
+    
+  }
+  
+  
+  if(add_intercept){
+    
+    X = cbind(rep(1,m),X)
+    
+  }
+  
   q = dim(X)[2]
 
   # Initializing values for IRWLS #############

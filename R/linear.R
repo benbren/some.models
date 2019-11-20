@@ -5,7 +5,7 @@
 #' n by p design matrix of numeric covariates where n is the sample size and p is the parameter space.
 #' @param y
 #' n by 1 vector of numeric continuous outcomes
-#' @param need_intercept
+#' @param add_intercept
 #' do you need to add an intercept column to your design matrix? we assume TRUE
 #'
 #' @param to_predict an optional design for which you would like the outcomes predicted
@@ -24,7 +24,7 @@
 #'
 #' @export
 
-linear = function(X, y, need_intercept = T , to_predict = NULL){
+linear = function(X, y, add_intercept = T , to_predict = NULL){
 
 
 
@@ -40,7 +40,7 @@ linear = function(X, y, need_intercept = T , to_predict = NULL){
   }
 
 
-  if(need_intercept){
+  if(add_intercept){
 
     X = cbind(rep(1,n),X)
 
@@ -57,7 +57,7 @@ linear = function(X, y, need_intercept = T , to_predict = NULL){
 
     } else {
 
-      stop('You need less outcomes')
+      stop('You need more outcomes')
 
     }
 
@@ -67,6 +67,13 @@ linear = function(X, y, need_intercept = T , to_predict = NULL){
     stop('Too many covariates for simple OLS')
 
   }
+  if(det(t(X)%*%X) == 0){
+
+    stop('X must be full column-rank')
+
+  }
+
+
 
   Xt_X_inv = solve(t(X)%*%X)
   betas = Xt_X_inv %*% (t(X)%*%y)
