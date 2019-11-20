@@ -13,6 +13,6 @@ Suggests:
     rmarkdown,
     bench,
     dplyr,
-    ggplot,
+    ggplot2,
     testthat
 VignetteBuilder: knitr
