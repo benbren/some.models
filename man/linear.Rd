@@ -5,14 +5,14 @@
 \title{A function to do simple linear regression - the first of my first package - how cool!
 This function will estimate the OLS estmates of beta, as well as the SD, t statistics, and hypothesis conclusions}
 \usage{
-linear(X, y, need_intercept = T, to_predict = NULL)
+linear(X, y, add_intercept = T, to_predict = NULL)
 }
 \arguments{
 \item{X}{n by p design matrix of numeric covariates where n is the sample size and p is the parameter space.}
 
 \item{y}{n by 1 vector of numeric continuous outcomes}
 
-\item{need_intercept}{do you need to add an intercept column to your design matrix? we assume TRUE}
+\item{add_intercept}{do you need to add an intercept column to your design matrix? we assume TRUE}
 
 \item{to_predict}{an optional design for which you would like the outcomes predicted}
 }

@@ -5,7 +5,15 @@
 \title{A function to perfrom logistic regression on data with either binary outcomes (1/0)
 or with data that indicates the number of successes out of the number of overall trials}
 \usage{
-logistic(X, y, n = 1, i_max = 100, tol = 1e-04, to_predict = NULL)
+logistic(
+  X,
+  y,
+  n = 1,
+  i_max = 100,
+  tol = 1e-04,
+  to_predict = NULL,
+  add_intercept = T
+)
 }
 \arguments{
 \item{X}{a design matrix - no restrictions, but it should have an intercept column or the results will 
@@ -23,6 +31,8 @@ this is the number of iterations of IRWLS that you want to perform.}
 
 \item{to_predict}{a n optional matrix to have predictions made for - should be same dimensions as X, including the intercept, 
 or there will be an error/wrong inference.}
+
+\item{add_intercept}{TRUE if your design matrix needs an intercept}
 }
 \value{
 coefficients, standard errors, wald statistics, p-values, odds ratios and the fitted probabilites. 
