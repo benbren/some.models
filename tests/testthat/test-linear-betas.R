@@ -7,8 +7,9 @@ test_that("i get the correct coefficients for linear", {
   y = rnorm(100, sd = 4)
   y_wrong = rnorm(99, sd = 4)
 
+
   expect_equal(as.vector(lm(y ~ X)$coefficients), as.vector(linear(X,y)$coeffs))
-  expect_equal(as.vector(lm(y ~ X1)$coefficients), as.vector(linear(X1,y)$coeffs))
+  expect_equal(as.vector(lm(y ~ X1)$coefficients) , as.vector(linear(X1,y)$coeffs))
 
   expect_equal(as.vector(lm(y ~ X)$fitted.values), as.vector(linear(X,y)$fitted_values))
   expect_equal(as.vector(lm(y ~ X1)$fitted.values), as.vector(linear(X1,y)$fitted_values))
