@@ -14,17 +14,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-## First (and foremost), load the package! 
+## Before we get started... load the package! 
 
 ```{r setup}
 library(some.models)
-
 ```
-## What is this package about? 
+#What is this package about? 
 
-This package provides you with one function to use in one very simple way - linear, which allows you to run multiple linear regression via OLS. What is OLS? Pretty much .. the easiest way to run a regression that we can think of. Essentially, it consists of estimating the parameters $\beta$ in order to minimize our loss in an $\ell-2$ sense. After a bit of calculus, we end up with a $\hat{\beta}_{p\times 1}$ estimate given by $(X^TX)^{-1}X^TY$ where $X$ is an $n \times p$, full-column rank design matrix of covariates and $Y$ is an $n \times 1$ vector of continuous outcomes (binary and categorical outcomes are better suited for the glm function in R, or for binary in particular the logistic function which I hope to build into here if I have time!). 
+This package provides you with two simples functions to use in simple ways - **linear**, which allows you to run multiple linear regression via OLS, and **logistic**, which allows you to run a generalized linear model with the logit link function (meaning you are hopefully looking at binary outcomes). 
 
-## Does it work? 
+##linear 
+
+What is OLS? Pretty much .. the easiest way to run a regression that we can think of. Essentially, it consists of estimating the parameters $\beta$ in order to minimize our loss in an $\ell-2$ sense. After a bit of calculus, we end up with a $\hat{\beta}_{p\times 1}$ estimate given by $(X^TX)^{-1}X^TY$ where $X$ is an $n \times p$, full-column rank design matrix of continuous outcomes.
+
+### Does it work? 
 
 Yes. 
 
@@ -53,9 +56,7 @@ cars_fit_mlr$t
 ```
 
 So all hypothesis testing (or at least hypothesis testing at the level of 650) can be done equivalently to the lm() function in base R. We get equivalent coefficient estimates, equivalent standard errors and equivalent t-statistics (as shown above). 
-
-
-## How to use it?
+### How to use it?
 
 * You can use it to (obviously) estimate slope and intercept coefficients. This leads to a way to visualize the regression (at least in the univariate case). 
 
@@ -102,9 +103,9 @@ q1
 * The function also provides you with the opportunity to get predicted values from a set of data. 
 ```{r}
 dim(mtcars)
-
-mtcars_test = mtcars[1:16,]
-mtcars_train = mtcars[17:32,]
+train = sample(1:32, 16, replace = F)
+mtcars_test = mtcars[-train,]
+mtcars_train = mtcars[train,]
 
 fit_predict = linear(cbind(mtcars_train$wt, mtcars_train$hp), mtcars_train$mpg, 
                      to_predict = cbind(mtcars_test$wt, mtcars_test$hp))
@@ -122,7 +123,7 @@ all.equal(X_lm, X_linear)
 
 ```
 
-## How does it compare in speed to lm( )? 
+### How does it compare in speed to lm( )? 
 
 ```{r, fig.align ='center', fig.width= 5, fig.height = 5}
 library(bench)
@@ -138,3 +139,100 @@ ggplot2::autoplot(benchmark)
 ```
 
 It is faster than lm( ) on almost all runs. Furthemore, we can see it allocates less memory than lm( ), so it is better for performing very simple analysis. 
+
+##logistic 
+
+### Does it work? 
+
+Also, yes. 
+
+```{r}
+admit_data = read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+
+y = admit_data$admit
+
+X = cbind(rep(1,dim(admit_data)[1]), 
+          admit_data$gre, 
+          admit_data$gpa)
+
+glm_model = glm(admit ~ gre + gpa, data = admit_data, family = 'binomial')
+
+logistic_fit = logistic(X,y)
+
+all.equal(as.vector(logistic_fit$coeffs),as.vector(glm_model$coefficients))
+
+all.equal(as.vector(logistic_fit$fitted),as.vector(glm_model$fitted.values))
+
+
+```
+
+The fitted values are slightly different, but very slightly and not enough to change predictive inference. We can also do predicttion as we did before using logistic.
+
+```{r}
+
+dim(admit_data)
+train = sample(1:400,200,replace = F)
+admit_data_train = admit_data[train,]
+admit_data_test = admit_data[-train,]
+
+y = admit_data_train$admit
+
+X = cbind(rep(1,dim(admit_data_train)[1]),
+          admit_data_train$gre, 
+          admit_data_train$gpa)
+
+glm_model = glm(admit ~ gre + gpa, data = admit_data_train, family = 'binomial')
+
+logistic_fit = logistic(X,y, to_predict = cbind(rep(1,dim(admit_data_test)[1]), 
+                                                admit_data_test$gre, 
+                                                admit_data_test$gpa))
+
+head(logistic_fit$predicted)
+
+```
+
+This function will also work on data that is not just Bernoulli but binomial. Say we have a vector $Y$ of success and a vecotr $n$ of corresponding trials. So, an ordered pair could be something like (19,26) which means we observed 19 successes in 26 trials. This is possible in glm() - it is also possible with the logistic function. 
+
+```{r}
+data(mtcars)
+
+library(dplyr)
+
+mtcars$successes = sample(1:50, 32, replace = T)
+
+mtcars$total = with(mtcars, successes + sample(1:15, 32, replace = T))
+
+head(mtcars)
+
+X = mtcars %>% select(wt,vs,am,successes,total)
+
+glm_fit_binomial = glm(cbind(successes, total - successes) ~ wt + vs + am, data = X, family = 'binomial')
+logistic_fit_binomial = logistic(cbind(rep(1,32), X$wt,X$vs,X$am), X$successes, n = X$total)
+
+all.equal(as.vector(glm_fit_binomial$coefficients),as.vector(logistic_fit_binomial$coeffs))
+
+
+```
+
+So we see that we can use this logistic function to fit any data that uses the logit link function (so when the outcome follows Bernoulli or binomial)
+
+### How does it compare to GLM? 
+
+```{r message = F, , fig.align ='center', fig.width= 5, fig.height = 5}
+
+X = matrix(sample(1:1000),100,10 )
+y = rbinom(100,1,0.6)
+X1 = cbind(rep(1,100),X)
+
+bmark = bench::mark(as.vector(glm(y ~ X, family = 'binomial')$coefficients), 
+                    as.vector(logistic(X1,y)$coeffs))
+
+as.vector(glm(y ~ X, family = 'binomial')$coefficients)
+
+print(bmark)
+ggplot2::autoplot(bmark)
+
+```
+
+
+So, in general, we are about 3 times slower. glm is written in C++, a faster language, but also does a lot more complex calcuations and returns lots more information. However, I have found that all the information provided by glm makes it *harder* to understand logistic regression (and GLMS in general). logistic gives you the basic information you need for starting off as a statistician - an important trait. 

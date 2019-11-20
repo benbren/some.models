@@ -8,14 +8,17 @@
 #' @param need_intercept
 #' do you need to add an intercept column to your design matrix? we assume TRUE
 #'
+#'@return coefficients, fitted values, residuals, predictions (if you asked for them),
+#'t- statistics and conclusions to the hypothesis test that the coefficient is 0.
+#'
 #' @examples
 #'
 #' data(mtcars)
 #' y = mtcars$mpg
 #' X = mtcars$cyl
 #' # can also make X a matrix, no problem
-#' fit = linear(X,y)
-#' betas = fit$coeffs
+#' fit = linear(X,y) # this assumes your design matrix does not have an intercept in it
+#' betas = fit$coeffs # these are your OLS regression coefficients
 #'
 #' @export
 
