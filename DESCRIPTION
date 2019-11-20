@@ -14,5 +14,6 @@ Suggests:
     bench,
     dplyr,
     ggplot2,
+    tidyr,
     testthat
 VignetteBuilder: knitr
