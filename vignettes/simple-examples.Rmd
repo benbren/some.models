@@ -157,7 +157,7 @@ X = cbind(rep(1,dim(admit_data)[1]),
 
 glm_model = glm(admit ~ gre + gpa, data = admit_data, family = 'binomial')
 
-logistic_fit = logistic(X,y)
+logistic_fit = logistic(X,y,add_intercept = F)
 
 all.equal(as.vector(logistic_fit$coeffs),as.vector(glm_model$coefficients))
 
@@ -185,9 +185,9 @@ glm_model = glm(admit ~ gre + gpa, data = admit_data_train, family = 'binomial')
 
 logistic_fit = logistic(X,y, to_predict = cbind(rep(1,dim(admit_data_test)[1]), 
                                                 admit_data_test$gre, 
-                                                admit_data_test$gpa))
+                                                admit_data_test$gpa), add_intercept = F)
 
-head(logistic_fit$predicted)
+head(logistic_fit$predicted,40)
 
 ```
 
@@ -207,7 +207,7 @@ head(mtcars)
 X = mtcars %>% select(wt,vs,am,successes,total)
 
 glm_fit_binomial = glm(cbind(successes, total - successes) ~ wt + vs + am, data = X, family = 'binomial')
-logistic_fit_binomial = logistic(cbind(rep(1,32), X$wt,X$vs,X$am), X$successes, n = X$total)
+logistic_fit_binomial = logistic(cbind(rep(1,32), X$wt,X$vs,X$am), X$successes, n = X$total,add_intercept = F)
 
 all.equal(as.vector(glm_fit_binomial$coefficients),as.vector(logistic_fit_binomial$coeffs))
 
@@ -220,12 +220,12 @@ So we see that we can use this logistic function to fit any data that uses the l
 
 ```{r message = F, , fig.align ='center', fig.width= 5, fig.height = 5}
 
-X = matrix(sample(1:1000),100,10 )
+X = matrix(sample(1:1000),100,10)
 y = rbinom(100,1,0.6)
 X1 = cbind(rep(1,100),X)
 
 bmark = bench::mark(as.vector(glm(y ~ X, family = 'binomial')$coefficients), 
-                    as.vector(logistic(X1,y)$coeffs))
+                    as.vector(logistic(X1,y,add_intercept = F)$coeffs))
 
 as.vector(glm(y ~ X, family = 'binomial')$coefficients)
 
