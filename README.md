@@ -60,7 +60,7 @@ names(fit_logistic) # more things to choose from
 These are basic examples, please use
 
 ``` r
-vignette('simple-examples')
+?linear
 ```
 
 to see more complex examples and how to use these functions in a more complete way.
