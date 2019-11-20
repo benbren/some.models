@@ -43,6 +43,10 @@ logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL, add_i
     
   }
   
+  if(n == 1 & any(y != 0 & y != 1)){
+    stop('Wrong type of data')
+  }
+  
   q = dim(X)[2]
 
   # Initializing values for IRWLS #############
