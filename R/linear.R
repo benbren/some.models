@@ -26,19 +26,15 @@
 
 linear = function(X, y, add_intercept = T , to_predict = NULL){
 
-
-
   if(is.null(dim(X))){
 
     n = length(X)
-
 
   } else {
 
     n = dim(X)[1]
 
   }
-
 
   if(add_intercept){
 
@@ -47,7 +43,6 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
   }
 
   p = dim(X)[2]
-
 
   if(n != length(y)){
 
@@ -58,7 +53,6 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
     } else {
 
       stop('You need more outcomes')
-
     }
 
   }
@@ -73,8 +67,6 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
 
   }
 
-
-
   Xt_X_inv = solve(t(X)%*%X)
   betas = Xt_X_inv %*% (t(X)%*%y)
   fitted = X %*% betas
@@ -85,7 +77,6 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
   t_stats = betas/sqrt(beta_var)
   crit_value = qt(0.975, n-p-1)
   conclusion = ifelse( abs(t_stats) > crit_value, 'Reject', 'Fail to Reject')
-
 
   if(!is.null(to_predict)){
 

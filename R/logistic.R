@@ -33,7 +33,7 @@ logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL, add_i
   } else {
     
     m = dim(X)[1]
-    
+
   }
   
   
@@ -98,10 +98,48 @@ logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL, add_i
   
   
   if(!is.null(to_predict)){
-    
-    predicted_pi = exp(to_predict%*%betas)/(1+ exp(to_predict%*%betas))
-
-    predicted = ifelse(predicted_pi < 0.5, 0,1)
+    if(!is.null(dim(to_predict))){
+      if(dim(to_predict)[2] == dim(X)[2]){
+        
+        warning('Prediction wrong if to_predict not in same order as design matrix')
+        
+        predicted_pi = exp(to_predict%*%betas)/(1+ exp(to_predict%*%betas))
+        
+        predicted = ifelse(predicted_pi < 0.5, 0,1)
+        
+      } else if(dim(to_predict)[2] == dim(X)[2] - 1 ){
+        
+        warning('Prediction wrong if to_predict not in same order as design matrix - adding intercept')
+        
+        to_predict = cbind(1,to_predict)
+        
+        predicted_pi = exp(to_predict%*%betas)/(1+ exp(to_predict%*%betas))
+        
+        predicted = ifelse(predicted_pi < 0.5, 0,1)
+      } else {
+        stop('Cant predict - incorrect # of covariates')
+      }
+    } else {
+      if(length(to_predict) == dim(X)[2]){
+        
+        warning('Prediction wrong if to_predict not in same order as design matrix')
+        
+        predicted_pi = exp(to_predict%*%betas)/(1+ exp(to_predict%*%betas))
+        
+        predicted = ifelse(predicted_pi < 0.5, 0,1)
+        
+      } else if(length(to_predict) == dim(X)[2] - 1 ){
+        
+        warning('Prediction wrong if to_predict not in same order as design matrix - adding intercept')
+        
+        to_predict = c(1,to_predict)
+        predicted_pi = exp(to_predict%*%betas)/(1+ exp(to_predict%*%betas))
+        
+        predicted = ifelse(predicted_pi < 0.5, 0,1)
+      } else {
+        stop('Cant predict - incorrect # of covariates')
+      }
+    }
     
   } else {
     
