@@ -20,8 +20,8 @@ test_that("logistic works", {
   expect_warning(logistic(X,y, to_predict = 4), 'Prediction wrong if to_predict not in same order as design matrix - adding intercept')
   expect_warning(logistic(X,y, to_predict = c(1,4)), 'Prediction wrong if to_predict not in same order as design matrix')
 
-  expect_warning(logistic(X1,y, to_predict = sample(1:10,10)), 'Prediction wrong if to_predict not in same order as design matrix - adding intercept')
-  expect_warning(logistic(X,y, to_predict = c(1,4)), 'Prediction wrong if to_predict not in same order as design matrix')
+  expect_warning(logistic(X1,y, to_predict = matrix(sample(1:10,50, replace = T),5,10)), 'Prediction wrong if to_predict not in same order as design matrix - adding intercept')
+  expect_warning(logistic(X1,y, to_predict = cbind(1,matrix(rnorm(50),5,10))), 'Prediction wrong if to_predict not in same order as design matrix')
 
 
 })
