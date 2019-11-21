@@ -3,4 +3,4 @@
 language: R
 cache: packages
 after_success:
-  - Rscript -e 'covr::codecov(type = "all"")'
+  - Rscript -e 'covr::codecov(type = "all", token = "1efd0446-7cf0-4c13-9e91-220e47a26639")'
