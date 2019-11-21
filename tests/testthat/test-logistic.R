@@ -13,4 +13,5 @@ test_that("logistic works", {
   expect_equal(as.vector(glm(y~X1, family= 'binomial')$coefficients),  as.vector(logistic(X1,y)$coeffs))
 
   expect_error(logistic(X,y_wrong), 'Wrong type of data')
+  expect_error(logistic(X,y, i_max = 1), "IRWLS failed to converge")
 })
