@@ -131,7 +131,7 @@ library(bench)
 X = matrix(sample(1:60,10000, replace = T),1000,10)
 y = rnorm(1000,mean = 0 , sd = sqrt(10))
 
-benchmark = bench::mark(as.vector(lm(y ~ X)$coefficients),as.vector(linear(X,y)$coeffs))
+benchmark = bench::mark(lm = as.vector(lm(y ~ X)$coefficients),linear = as.vector(linear(X,y)$coeffs))
 
 print(benchmark)
 ggplot2::autoplot(benchmark)
@@ -224,8 +224,8 @@ X = matrix(sample(1:1000),100,10)
 y = rbinom(100,1,0.6)
 X1 = cbind(rep(1,100),X)
 
-bmark = bench::mark(as.vector(glm(y ~ X, family = 'binomial')$coefficients), 
-                    as.vector(logistic(X1,y,add_intercept = F)$coeffs))
+bmark = bench::mark(glm = as.vector(glm(y ~ X, family = 'binomial')$coefficients), 
+                    logistic = as.vector(logistic(X1,y,add_intercept = F)$coeffs))
 
 print(bmark)
 ggplot2::autoplot(bmark)
