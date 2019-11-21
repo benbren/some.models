@@ -152,10 +152,9 @@ admit_data = read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
 y = admit_data$admit
 
 X = cbind(rep(1,dim(admit_data)[1]), 
-          admit_data$gre, 
-          admit_data$gpa)
+          admit_data$gre)
 
-glm_model = glm(admit ~ gre + gpa, data = admit_data, family = 'binomial')
+glm_model = glm(admit ~ gre, data = admit_data, family = 'binomial')
 
 logistic_fit = logistic(X,y,add_intercept = F)
 
@@ -166,7 +165,7 @@ all.equal(as.vector(logistic_fit$fitted),as.vector(glm_model$fitted.values))
 
 ```
 
-The fitted values are slightly different, but very slightly and not enough to change predictive inference. We can also do predicttion as we did before using logistic.
+The fitted values are slightly different, but very slightly and not enough to change predictive inference. We can also do prediction as we did before using logistic.
 
 ```{r}
 
