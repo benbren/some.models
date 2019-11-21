@@ -1,5 +1,4 @@
-#' A function to perfrom logistic regression on data with either binary outcomes (1/0)
-#' or with data that indicates the number of successes out of the number of overall trials 
+#' Logistic Regression and Prediction
 #' 
 #' @param X a design matrix - no restrictions, but it should have an intercept column or the results will 
 #' be wrong.  

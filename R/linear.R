@@ -1,5 +1,4 @@
-#' A function to do simple linear regression - the first of my first package - how cool!
-#' This function will estimate the OLS estmates of beta, as well as the SD, t statistics, and hypothesis conclusions
+#' Linear Regression and Prediction
 #'
 #' @param X
 #' n by p design matrix of numeric covariates where n is the sample size and p is the parameter space.
