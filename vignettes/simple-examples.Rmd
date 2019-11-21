@@ -191,6 +191,8 @@ head(logistic_fit$predicted,40)
 
 ```
 
+This treats all vectors as row vectors, so say you have one covariate and 6 individuals you want to predict an outcome for. This prediction won't work and will throw an error if you pass them to the function with c(). You either need to add a column of ones, or to pass them individually and get individual predictions.  
+
 This function will also work on data that is not just Bernoulli but binomial. Say we have a vector $Y$ of success and a vecotr $n$ of corresponding trials. So, an ordered pair could be something like (19,26) which means we observed 19 successes in 26 trials. This is possible in glm() - it is also possible with the logistic function. 
 
 ```{r}
