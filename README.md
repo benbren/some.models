@@ -15,15 +15,20 @@ You can install the released version of some.models from GitHub. First, you shou
 
 ``` r
 .rs.restartR()
+remove.packages('some.models')
 ```
 
-followed by
+just to be sure....
+
+Then you can run
 
 ``` r
 install.packages('devtools')
-devtools::install_github('benbren/some.models')
+devtools::install_github('benbren/some.models', build_vignettes = T)
 library("some.models")
 ```
+
+to get the package on your computer This will install two packages, bench and ggbeeswarm, automatically so that the user can access the vignettes!
 
 Example
 -------
