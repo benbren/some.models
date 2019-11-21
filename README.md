@@ -57,10 +57,17 @@ names(fit_logistic) # more things to choose from
 #> [7] "predicted"
 ```
 
-These are basic examples, please use
+These are basic examples which preclude any analysis, please use
 
 ``` r
 ?linear
+?logistic 
 ```
 
-to see more complex examples and how to use these functions in a more complete way.
+for more examples or, for even more info, use
+
+``` r
+browseVignettes(package = 'some.models')
+```
+
+and click HTML to see more complex examples and how to use these functions in a more complete way.
