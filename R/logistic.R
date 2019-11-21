@@ -29,7 +29,6 @@ logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL, add_i
     
     m = length(X)
     
-    
   } else {
     
     m = dim(X)[1]
