@@ -2,8 +2,7 @@
 % Please edit documentation in R/logistic.R
 \name{logistic}
 \alias{logistic}
-\title{A function to perfrom logistic regression on data with either binary outcomes (1/0)
-or with data that indicates the number of successes out of the number of overall trials}
+\title{Logistic Regression and Prediction}
 \usage{
 logistic(
   X,
@@ -39,8 +38,7 @@ coefficients, standard errors, wald statistics, p-values, odds ratios and the fi
 also returns and optional predictions for a set of test data.
 }
 \description{
-A function to perfrom logistic regression on data with either binary outcomes (1/0)
-or with data that indicates the number of successes out of the number of overall trials
+Logistic Regression and Prediction
 }
 \examples{
 y = rbinom(100,size = 1,prob = 0.4) # see vignette for n != 1 example 

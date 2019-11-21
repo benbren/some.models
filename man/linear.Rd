@@ -2,8 +2,7 @@
 % Please edit documentation in R/linear.R
 \name{linear}
 \alias{linear}
-\title{A function to do simple linear regression - the first of my first package - how cool!
-This function will estimate the OLS estmates of beta, as well as the SD, t statistics, and hypothesis conclusions}
+\title{Linear Regression and Prediction}
 \usage{
 linear(X, y, add_intercept = T, to_predict = NULL)
 }
@@ -21,8 +20,7 @@ coefficients, fitted values, residuals, predictions (if you asked for them),
 t- statistics and conclusions to the hypothesis test that the coefficient is 0.
 }
 \description{
-A function to do simple linear regression - the first of my first package - how cool!
-This function will estimate the OLS estmates of beta, as well as the SD, t statistics, and hypothesis conclusions
+Linear Regression and Prediction
 }
 \examples{
 
