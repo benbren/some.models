@@ -8,7 +8,7 @@
 #' @param add_intercept
 #' do you need to add an intercept column to your design matrix? we assume TRUE
 #'
-#' @param to_predict an optional design for which you would like the outcomes predicted
+#' @param to_predict an optional obervation(s) for which you would like the outcomes predicted
 #'
 #'@return coefficients, fitted values, residuals, predictions (if you asked for them),
 #'t- statistics and conclusions to the hypothesis test that the coefficient is 0.
@@ -89,34 +89,53 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
 
   if(!is.null(to_predict)){
 
+   if(!is.null(dim(to_predict))){
 
-    if(all(dim(to_predict) == c(n,p))){
+      if(dim(to_predict)[2] == p){
 
-      warning('Predictions will be wrong if your prediction data is not in the same order as your design')
+        warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design')
 
-      predicted =  to_predict %*% betas
+        predicted =  to_predict %*% betas
 
-    } else if (all(dim(to_predict) == c(n,p-1))){
+      } else if(dim(to_predict)[2] == p-1){
 
-      warning('Predictions will be wrong if your prediction data is not in the same order as your design')
+        warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design - adding intercept')
 
-      warning('Adding intercept to prediction')
+        to_predict = cbind(1,to_predict)
 
-      to_predict = cbind(rep(1,n),to_predict)
+        predicted =  to_predict %*% betas
+      }
 
-      predicted =  to_predict %*% betas
+      else {
+
+        stop('Design matrix to be predicted does not have the correct dimensions')
+      }
+
+    } else {
+      if(length(to_predict) == p){
+
+        warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design')
+
+        predicted =  to_predict %*% betas
+
+      } else if(length(to_predict) == p-1){
+
+        warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design - adding intercept')
+
+        to_predict = c(1,to_predict)
+
+        predicted =  to_predict %*% betas
+      }
+
+      else {
+
+        stop('Design matrix to be predicted does not have the correct dimensions')
+      }
+
     }
-
-    else (
-
-      stop('Design matrix to be predicted does not have the correct dimensions')
-
-    )
-
-  } else {
+  }  else {
 
     predicted = NULL
-
   }
 
   rtrn = list(coeffs = betas,
