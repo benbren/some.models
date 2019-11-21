@@ -14,11 +14,9 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    bench,
     dplyr,
     ggplot2,
     tidyr,
-    ggbeeswarm,
     testthat (>= 2.1.0),
     covr
 VignetteBuilder: knitr
