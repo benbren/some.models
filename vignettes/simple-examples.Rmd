@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(some.models)
 ```
-#What is this package about? 
+# What is this package about? 
 
 This package provides you with two simple functions to use in simple ways - **linear**, which allows you to run multiple linear regression via OLS, and **logistic**, which allows you to run a generalized linear model with the logit link function (meaning you are hopefully looking at binary outcomes). 
 
-##linear 
+## linear 
 
 What is OLS? Pretty much .. the easiest way to run a regression that we can think of. Essentially, it consists of estimating the parameters $\beta$ in order to minimize our loss in an $\ell-2$ sense. After a bit of calculus, we end up with a $\hat{\beta}_{p\times 1}$ estimate given by $(X^TX)^{-1}X^TY$ where $X$ is an $n \times p$, full-column rank design matrix of continuous outcomes.
 
@@ -146,7 +146,7 @@ ggplot2::autoplot(benchmark)
 
 It is faster than lm( ) on almost all runs. Furthermore, we can see it allocates less memory than lm( ), so it is better for performing very simple analysis. 
 
-##logistic 
+## logistic 
 
 ### Does it work? 
 
