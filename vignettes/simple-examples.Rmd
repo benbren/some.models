@@ -226,8 +226,6 @@ mtcars$successes = sample(1:50, 32, replace = T)
 
 mtcars$total = with(mtcars, successes + sample(1:15, 32, replace = T))
 
-head(mtcars)
-
 X = mtcars %>% select(wt,vs,am,successes,total)
 
 glm_fit_binomial = glm(cbind(successes, total - successes) ~ wt + vs + am, data = X, family = 'binomial')
