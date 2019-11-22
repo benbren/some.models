@@ -13,7 +13,7 @@ linear(X, y, add_intercept = T, to_predict = NULL)
 
 \item{add_intercept}{do you need to add an intercept column to your design matrix? we assume TRUE}
 
-\item{to_predict}{an optional obervation(s) for which you would like the outcomes predicted}
+\item{to_predict}{optional observation(s) for which you would like the outcomes predicted}
 }
 \value{
 coefficients, fitted values, residuals, predictions (if you asked for them),

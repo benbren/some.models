@@ -15,7 +15,7 @@ logistic(
 )
 }
 \arguments{
-\item{X}{a design matrix - no restrictions, but it should have an intercept column or the results will 
+\item{X}{a design matrix - no restrictions, but it should have an intercept column or the results will
 be wrong.}
 
 \item{y}{an outcome vector. this should either be 1/0 or it should be the number of success out of n trials}
@@ -28,22 +28,22 @@ this is the number of iterations of IRWLS that you want to perform.}
 
 \item{tol}{the tolerance to hop out of the algorithm.}
 
-\item{to_predict}{a n optional matrix to have predictions made for - should be same dimensions as X, including the intercept, 
+\item{to_predict}{a n optional matrix to have predictions made for - should be same dimensions as X, including the intercept,
 or there will be an error/wrong inference.}
 
 \item{add_intercept}{TRUE if your design matrix needs an intercept}
 }
 \value{
-coefficients, standard errors, wald statistics, p-values, odds ratios and the fitted probabilites. 
+coefficients, standard errors, wald statistics, p-values, odds ratios and the fitted probabilites.
 also returns and optional predictions for a set of test data.
 }
 \description{
 Logistic Regression and Prediction
 }
 \examples{
-y = rbinom(100,size = 1,prob = 0.4) # see vignette for n != 1 example 
+y = rbinom(100,size = 1,prob = 0.4) # see vignette for n != 1 example
 X = matrix(rnorm(1000,mean = 0, sd = 10),100,10)
 fit = logistic(X,y)
-odds_ratios = fit$or 
+odds_ratios = fit$or
 
 }
