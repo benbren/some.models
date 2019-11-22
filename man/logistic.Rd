@@ -18,10 +18,10 @@ logistic(
 \item{X}{a design matrix - no restrictions, but it should have an intercept column or the results will
 be wrong.}
 
-\item{y}{an outcome vector. this should either be 1/0 or it should be the number of success out of n trials}
+\item{y}{an outcome vector. this should either be 1/0 or it should be the number of success out of corresponding n trials (below)}
 
 \item{n}{the number of trials ^^. if y is 1/0, this should remain 1 and there is only one trial (either 1 or 0)
-intialized at 1, as most data will come as 1/0.}
+initialized at 1, as most data will come as 1/0.}
 
 \item{i_max}{as generalized linear models use an iterative algorithm to estimate the parameter,
 this is the number of iterations of IRWLS that you want to perform.}
@@ -34,7 +34,7 @@ or there will be an error/wrong inference.}
 \item{add_intercept}{TRUE if your design matrix needs an intercept}
 }
 \value{
-coefficients, standard errors, wald statistics, p-values, odds ratios and the fitted probabilites.
+coefficients, standard errors, wald statistics, p-values, odds ratios and the fitted probabilities.
 also returns and optional predictions for a set of test data.
 }
 \description{
