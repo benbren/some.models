@@ -21,7 +21,7 @@ library(some.models)
 ```
 #What is this package about? 
 
-This package provides you with two simples functions to use in simple ways - **linear**, which allows you to run multiple linear regression via OLS, and **logistic**, which allows you to run a generalized linear model with the logit link function (meaning you are hopefully looking at binary outcomes). 
+This package provides you with two simple functions to use in simple ways - **linear**, which allows you to run multiple linear regression via OLS, and **logistic**, which allows you to run a generalized linear model with the logit link function (meaning you are hopefully looking at binary outcomes). 
 
 ##linear 
 
@@ -191,13 +191,15 @@ logistic_fit = logistic(X,y, to_predict = cbind(rep(1,dim(admit_data_test)[1]),
                                                 admit_data_test$gre, 
                                                 admit_data_test$gpa), add_intercept = F)
 
-head(logistic_fit$predicted,40)
-
 ```
 
 This treats all vectors as row vectors, so say you have one covariate and 6 individuals you want to predict an outcome for. This prediction won't work and will throw an error if you pass them to the function with c(). You either need to add a column of ones, or to pass them individually and get individual predictions. This is also true for linear... see an example below! 
 
 ```{r}
+
+y = admit_data$admit
+
+X =  admit_data$gre
 
 am_i_in = c(314,290,312,304)
 admitted = NULL
@@ -213,7 +215,7 @@ all.equal(as.vector(admitted), as.vector(admitted1$predicted))
 
 ```
 
-This function will also work on data that is not just Bernoulli but binomial. Say we have a vector $Y$ of success and a vecotr $n$ of corresponding trials. So, an ordered pair could be something like (19,26) which means we observed 19 successes in 26 trials. This is possible in glm() - it is also possible with the logistic function. 
+This function will also work on data that is not just Bernoulli but binomial. Say we have a vector $Y$ of success and a vector $n$ of corresponding trials. So, an ordered pair could be something like (19,26) which means we observed 19 successes in 26 trials. This is possible in glm() - it is also possible with the logistic function. 
 
 ```{r}
 data(mtcars)
@@ -255,4 +257,4 @@ ggplot2::autoplot(bmark)
 ```
 
 
-So, in general, we are about 3 times slower. glm is written in C++, a faster language, but also does a lot more complex calcuations and returns lots more information. However, I have found that all the information provided by glm makes it *harder* to understand logistic regression (and GLMS in general). logistic gives you the basic information you need for starting off as a statistician - an important trait. 
+So, in general, we are about 3 times slower. glm is written in C++, a faster language, but also does a lot more complex calculations and returns lots more information. However, I have found that all the information provided by glm makes it *harder* to understand logistic regression (and GLMS in general). logistic gives you the basic information you need for starting off as a statistician - an important trait. 
