@@ -7,7 +7,7 @@
 #' @param add_intercept
 #' do you need to add an intercept column to your design matrix? we assume TRUE
 #'
-#' @param to_predict an optional obervation(s) for which you would like the outcomes predicted
+#' @param to_predict optional observation(s) for which you would like the outcomes predicted
 #'
 #'@return coefficients, fitted values, residuals, predictions (if you asked for them),
 #'t- statistics and conclusions to the hypothesis test that the coefficient is 0.
