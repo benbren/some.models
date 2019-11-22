@@ -30,6 +30,17 @@ library("some.models")
 
 to get the package on your computer This will install two packages (bench and ggbeeswarm) automatically so that the user can access the vignettes!
 
+What type of data should I use?
+-------------------------------
+
+### linear
+
+You *need* to input an *n* × *p* design matrix *X* of numeric covariates, where one row is one subjects set of *p* covariates, and an *n* × 1 vector, *y* , of continuous outcomes. You have the option to have the intercept term added to your design matrix, and to provide the function with another *n* × *p* matrix of covariates (in the same order as your original *X* input) whose outcomes you would like the model to predict. This matrix can either be the same dimensions as your original input or the same dimension plus a column for the intercept.
+
+### logistic
+
+You *need* an *n* × *p* design matrix X of numeric covariates and either 1. an *n* × 1 binary outcome vector *y* or 2. two discrete *n* × 1 vectors, *y* and *n*, of "successes" (*y*) per "trials" (*n*). So, *y* &lt; *n*. The other options are optional, but as above specify the addition of an intercept and the possibility to predict outcomes using the model you have fit. There is also an option to change the number of iterations the algorithm runs to estimate the parameters, but this would rarely be needed.
+
 Example
 -------
 
