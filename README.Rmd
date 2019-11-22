@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/benbren/some.models/branch/master/graph/badge.svg)](https://codecov.io/gh/benbren/some.models?branch=master)
 <!-- badges: end -->
 
-The goal of some.models is to allow the user to use and understand both linear regression and logistic regression in a beginner friendly way. In this package, we create functions with output that is limited to metrics that are important when beginning to learn about these regression techniques. Compared to lm and glm, these functions are easy to understand and interpret, and allow for easy, real-world, prediction capabilites. I have found that most basic students of statistics are overwhelmed by the output of both lm and glm, and are unsure of how to interpret them or use them - or even how to extract the needed metrics from them! My hope for this package is for students, with knowledge of how to put data into these functions and formats, are able to better access and understand the functionalites of these methods. 
+The goal of some.models is to allow the user to use and understand both linear regression and logistic regression in a beginner friendly way. In this package, we create functions with output that is limited to metrics that are important when beginning to learn about these regression techniques. Compared to lm and glm, these functions are easy to understand and interpret, and allow for easy, real-world, prediction capabilities. I have found that most basic students of statistics are overwhelmed by the output of both lm and glm, and are unsure of how to interpret them or use them - or even how to extract the needed metrics from them! My hope for this package is for students, with knowledge of how to put data into these functions and formats, are able to better access and understand the functionalities of these methods. 
 
 ## Installation
 
-Okaty, enough with the rant. You can install the released version of some.models from GitHub. First, you should run in your console (or in a script, whatever..) 
+Okay, enough with the rant. You can install the released version of some.models from GitHub. First, you should run in your console (or in a script, whatever..) 
 
 ``` r 
 .rs.restartR()
