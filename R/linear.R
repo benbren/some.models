@@ -25,17 +25,17 @@
 
 linear = function(X, y, add_intercept = T , to_predict = NULL){
 
-  if(is.null(dim(X))){
+  if(is.null(dim(X))){ # a vector is X
 
     n = length(X)
 
-  } else {
+  } else { # X is a matrix
 
     n = dim(X)[1]
 
   }
 
-  if(add_intercept){
+  if(add_intercept){ # this part adds the intercept if that was requested
 
     X = cbind(rep(1,n),X)
 
@@ -47,24 +47,26 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
 
     if(n < length(y)){
 
-      stop('You are missing some rows in your design matrix')
+      stop('You are missing some rows in your design matrix') # n < y
 
     } else {
 
-      stop('You need more outcomes')
+      stop('You need more outcomes') # n > y
     }
 
   }
   if(n <= p){
 
-    stop('Too many covariates for simple OLS')
+    stop('Too many covariates for simple OLS') # overdetermined system, penalized regression is better
 
   }
-  if(det(t(X)%*%X) == 0){
+  if(det(t(X)%*%X) == 0){ # this means X'X is not invertible (i.e it is not full column rank)
 
     stop('X must be full column-rank')
 
   }
+
+  # all the simple matrix calculations of OLS
 
   Xt_X_inv = solve(t(X)%*%X)
   betas = Xt_X_inv %*% (t(X)%*%y)
@@ -77,17 +79,19 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
   crit_value = qt(0.975, n-p-1)
   conclusion = ifelse( abs(t_stats) > crit_value, 'Reject', 'Fail to Reject')
 
-  if(!is.null(to_predict)){
+  ### PREDICTION #########
 
-   if(!is.null(dim(to_predict))){
+  if(!is.null(to_predict)){  # if to_predict is anything
 
-      if(dim(to_predict)[2] == p){
+   if(!is.null(dim(to_predict))){ # if to_predict is a matrix
+
+      if(dim(to_predict)[2] == p){ # and a matrix with the intercept added in already
 
         warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design')
 
         predicted =  to_predict %*% betas
 
-      } else if(dim(to_predict)[2] == p-1){
+      } else if(dim(to_predict)[2] == p-1){ # or if it is a matrix in need of the intercept
 
         warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design - adding intercept')
 
@@ -96,12 +100,13 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
         predicted =  to_predict %*% betas
       }
 
-      else {
+      else { # it is literally anything but a matrix with p or p- 1 columns
 
         stop('Design matrix to be predicted does not have the correct dimensions')
       }
 
-    } else {
+    } else { # same as above, but in the case where the prediction is only one observation
+
       if(length(to_predict) == p){
 
         warning('Predictions will be wrong if rows of your prediction data is not in the same order as your design')
@@ -143,5 +148,5 @@ linear = function(X, y, add_intercept = T , to_predict = NULL){
               conclusions = conclusion
               )
 
-  return(rtrn)
+  return(rtrn) # cool!
 }
