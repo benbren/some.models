@@ -126,7 +126,8 @@ all.equal(X_lm, X_linear)
 
 ```
 
-Cool!
+Cool! Also, to state the obvious, you cannot predict any data that isn't in the format of your data. You will receive a warning reminding you. You also cannot predict data - or have any data - that is non-numeric (again - to state the obvious). 
+
 
 ### How does it compare in speed to lm( )? 
 
