@@ -99,29 +99,34 @@ q1 = q + ylab("Sample") + xlab('Theoretical')
 q1
 ```
 
-* It is also easy to assess normality of the residuals using a QQ-plot. For further tests of collinear assumptions, it is best to consider your study design. If responses are measured over time, you can plot the residuals versus time and check to see if there is a trend (autocorrelation)
+* It is also easy to assess normality of the residuals using a QQ-plot. For further tests of collinear assumptions, it is best to consider your study design. If responses are measured over time, you can plot the residuals versus time and check to see if there is a trend (autocorrelation). That functionality is not provided in this package. However, it does include other things! 
+
 * The function also provides you with the opportunity to get predicted values from a set of data. 
+
 ```{r}
 dim(mtcars)
 train = sample(1:32, 16, replace = F)
 mtcars_test = mtcars[-train,]
 mtcars_train = mtcars[train,]
 
+fit_predict_lm = lm(mpg ~ wt + hp, data = mtcars_train)
+
+X = cbind(rep(1,16), mtcars_test$wt, mtcars_test$hp)
+
+X_lm = X %*% coefficients(fit_predict_lm) # so much work.... 
+
 fit_predict = linear(cbind(mtcars_train$wt, mtcars_train$hp), mtcars_train$mpg, 
                      to_predict = cbind(mtcars_test$wt, mtcars_test$hp))
 
 X_linear = fit_predict$predicted # much less work! 
 
-fit_predict_lm = lm(mpg ~ wt + hp, data = mtcars_train)
-
-X = cbind(rep(1,16), mtcars_test$wt, mtcars_test$hp)
-
-X_lm = X %*% coefficients(fit_predict_lm)
 
 all.equal(X_lm, X_linear)
 
 
 ```
+
+Cool!
 
 ### How does it compare in speed to lm( )? 
 
@@ -138,7 +143,7 @@ ggplot2::autoplot(benchmark)
 
 ```
 
-It is faster than lm( ) on almost all runs. Furthemore, we can see it allocates less memory than lm( ), so it is better for performing very simple analysis. 
+It is faster than lm( ) on almost all runs. Furthermore, we can see it allocates less memory than lm( ), so it is better for performing very simple analysis. 
 
 ##logistic 
 
@@ -164,7 +169,7 @@ all.equal(as.vector(logistic_fit$fitted),as.vector(glm_model$fitted.values))
 
 ```
 
-The fitted values are slightly different, but very slightly and not enough to change predictive inference. We can also do prediction as we did before using logistic.
+The fitted values are slightly different, but very slightly and not enough to change predictive inference unless at the literal margin of 0.499 and 0.5. We can also do prediction as we did before using logistic.
 
 ```{r}
 
@@ -189,7 +194,23 @@ head(logistic_fit$predicted,40)
 
 ```
 
-This treats all vectors as row vectors, so say you have one covariate and 6 individuals you want to predict an outcome for. This prediction won't work and will throw an error if you pass them to the function with c(). You either need to add a column of ones, or to pass them individually and get individual predictions.  
+This treats all vectors as row vectors, so say you have one covariate and 6 individuals you want to predict an outcome for. This prediction won't work and will throw an error if you pass them to the function with c(). You either need to add a column of ones, or to pass them individually and get individual predictions. This is also true for linear... see an example below! 
+
+```{r}
+
+am_i_in = c(314,290,312,304)
+admitted = NULL
+for(i in 1:length(am_i_in)){
+  admitted[i] = logistic(X,y,to_predict = am_i_in[i])$predicted
+}
+
+am_i_in_w_intercept = cbind(1,am_i_in)
+
+admitted1 = logistic(X,y, to_predict = am_i_in_w_intercept)
+
+all.equal(as.vector(admitted), as.vector(admitted1$predicted))
+
+```
 
 This function will also work on data that is not just Bernoulli but binomial. Say we have a vector $Y$ of success and a vecotr $n$ of corresponding trials. So, an ordered pair could be something like (19,26) which means we observed 19 successes in 26 trials. This is possible in glm() - it is also possible with the logistic function. 
 
