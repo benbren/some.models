@@ -41,7 +41,7 @@ logistic = function(X,y,n = 1, i_max = 100, tol = 1e-4, to_predict = NULL, add_i
 
   }
 
-  if(n == 1 & any(y != 0 & y != 1)){ # need binary data if you are doing logistic regression ungrouped.
+  if(all(n == 1) & any(y != 0 & y != 1)){ # need binary data if you are doing logistic regression ungrouped.
 
     stop('Wrong type of data for your outcome')
   }
