@@ -229,7 +229,8 @@ mtcars$total = with(mtcars, successes + sample(1:15, 32, replace = T))
 X = mtcars %>% select(wt,vs,am,successes,total)
 
 glm_fit_binomial = glm(cbind(successes, total - successes) ~ wt + vs + am, data = X, family = 'binomial')
-logistic_fit_binomial = logistic(cbind(rep(1,32), X$wt,X$vs,X$am), X$successes, n = X$total,add_intercept = F)
+
+logistic_fit_binomial = logistic(cbind(rep(1,32), X$wt,X$vs,X$am), X$successes, n = X$total, add_intercept = F)
 
 all.equal(as.vector(glm_fit_binomial$coefficients),as.vector(logistic_fit_binomial$coeffs))
 
@@ -246,13 +247,15 @@ X = matrix(sample(1:1000),100,10)
 y = rbinom(100,1,0.6)
 X1 = cbind(rep(1,100),X)
 
-bmark = bench::mark(glm = as.vector(glm(y ~ X, family = 'binomial')$coefficients), 
-                    logistic = as.vector(logistic(X1,y,add_intercept = F)$coeffs))
+system.time(glm(y ~ X, family = 'binomial'))
 
-print(bmark)
-ggplot2::autoplot(bmark)
+system.time(logistic(X,y))
+
+system.time(logistic(X1,y,add_intercept = F))
+            
+
 
 ```
 
 
-So, in general, we are about 3 times slower. glm is written in C++, a faster language, but also does a lot more complex calculations and returns lots more information. However, I have found that all the information provided by glm makes it *harder* to understand logistic regression (and GLMS in general). logistic gives you the basic information you need for starting off as a statistician - an important trait. 
+So, in general, we are about 5 times slower. glm is written in a faster language, but also does a lot more complex calculations and returns lots more information. However, I have found that all the information provided by glm makes it *harder* to understand logistic regression (and GLMS in general). logistic gives you the basic information you need for starting off as a statistician - an important trait. 
