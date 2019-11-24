@@ -9,10 +9,10 @@ test_that("logistic works", {
 
   tol = 1e-5
 
-  expect_equal(as.vector(glm(y~X, family= 'binomial')$coefficients), as.vector(logistic(X,y)$coeffs))
-  expect_equal(as.vector(glm(y~X1, family= 'binomial')$coefficients),  as.vector(logistic(X1,y)$coeffs))
-  expect_equal(as.vector(glm(y~x_vec, family= 'binomial')$coefficients),
-               as.vector(logistic(x_vec,y)$coeffs))
+  expect_true(all(abs(as.vector(glm(y~X, family= 'binomial')$coefficients - as.vector(logistic(X,y)$coeffs))) < tol ))
+  expect_true(all(abs(as.vector(glm(y~X1, family= 'binomial')$coefficients) - as.vector(logistic(X1,y)$coeffs)) < tol ))
+  expect_true(all(abs(as.vector(glm(y~x_vec, family= 'binomial')$coefficients) -
+               as.vector(logistic(x_vec,y)$coeffs)) < tol))
 
   expect_error(logistic(X,y_wrong), 'Wrong type of data')
   expect_error(logistic(X,y, i_max = 1), "IRWLS failed to converge")
